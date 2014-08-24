@@ -1,0 +1,120 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Invoice</title>
+
+        <link rel="stylesheet" type="text/css" href="css/styles.css" />
+        <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="js/knockout-3.1.0.js"></script>
+        <script type="text/javascript" src="js/data-sample.js"></script>
+        <script type="text/javascript" src="js/data.js"></script>
+        <script type="text/javascript" src="js/scripts.js"></script>
+    </head>
+
+    <body>
+        <div class="page">
+            <header>
+                <div class="header-hero" data-bind="html: self.name">
+                    Parker Holt Bossier
+                </div>
+                <div class="header-contact-wrapper">
+                    <ul class="header-contact">
+                        <li data-bind="html: self.email"></li>
+                        <li data-bind="html: self.phone"></li>
+                    </ul>
+                    <div class="header-address" data-bind="html: self.address"></div>
+                </div>
+            </header>
+
+            <section class="subtitle-section">
+                <div class="subtitle-invoice">
+                    <div class="subtitle-invoice-date" data-bind="html: date">
+                    </div>
+                    <div class="subtitle-invoice-title">INVOICE</div>
+                    <div class="subtitle-invoice-number" data-bind="html: number">
+                    </div>
+                </div>
+
+                <div class="subtitle-address">
+                    <label class="subtitle-address-label">Client:</label>
+                    <address data-bind="html: clientAddress">
+                    </address>
+                </div>
+            </section>
+
+            <section class="work-section">
+                <div class="work-row work-row-header">
+                    <div class="work-item  work-item-description">
+                        Description
+                    </div>
+                    <div class="work-item">
+                        Rate
+                    </div>
+                    <div class="work-item">
+                        Hours
+                    </div>
+                    <div class="work-item">
+                        Total
+                    </div>
+                </div>
+
+                <div data-bind="foreach: workItems" class="work-row-wrapper">
+                    <div class="work-row">
+                        <div class="work-item work-item-description">
+                            <label class="work-item-project" data-bind="html: project">
+                            </label>
+                            <div class="work-item-description-inner" data-bind="html: description">
+                            </div>
+                        </div>
+                        <div class="work-item" data-bind="text: '$' + rate">
+                        </div>
+                        <div class="work-item" data-bind="text: prettifyDuration(hours, minutes)">
+                        </div>
+                        <div class="work-item" data-bind="text: prettifyCost(cost)">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="work-section-cap"></div>
+            </section>
+
+            <section class="summary-section">
+                <div class="summary-project-items">
+                    <div class="work-row work-row-header">
+                        <div class="work-item">
+                            Project
+                        </div>
+                        <div class="work-item">
+                            Total
+                        </div>
+                    </div>
+
+                    <div data-bind="foreach: projectTotals">
+                        <div class="work-row">
+                            <div class="work-item" data-bind="html: name">
+                            </div>
+                            <div class="work-item" data-bind="text: prettifyCost(cost)">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="summary-total">
+                    <div class="summary-total-inner">
+                        <div class="work-row work-row-header">
+                            <div class="work-item">Balance Due</div>
+                        </div>
+                        <div class="work-row">
+                            <div class="work-item" data-bind="text: prettifyCost(totalCost)">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <footer>
+                /* thanks */
+            </footer>
+        </div>
+    </body>
+</html>
