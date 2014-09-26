@@ -133,9 +133,8 @@ table {
  * page global
  */
 * {
-  -webkit-box-sizing: border-box;
-     -moz-box-sizing: border-box;
-          box-sizing: border-box;
+  -moz-box-sizing: border-box;
+       box-sizing: border-box;
 }
 i {
   font-style: italic;
@@ -278,7 +277,7 @@ header {
 .work-row-header .work-item {
   margin: 0 3pt;
   background: #e0e0e0;
-  padding: 6pt 10pt;
+  padding: 6pt 23pt;
 }
 .work-row-header .work-item:first-child {
   margin-left: 0;
@@ -314,23 +313,19 @@ header {
  * summary section
  */
 .summary-section {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
   -webkit-box-align: center;
   -webkit-align-items: center;
       -ms-flex-align: center;
           align-items: center;
-  margin: 8em;
+  margin: 2.5em 0;
+  text-align: center;
 }
 .summary-project-items {
-  width: 50%;
-  padding-right: 3pt;
+  display: inline-block;
 }
 .summary-total {
-  width: 50%;
-  padding-left: 3pt;
+  display: inline-block;
+  margin-left: 50pt;
   text-align: right;
 }
 .summary-total-inner {

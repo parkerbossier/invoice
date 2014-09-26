@@ -3,9 +3,9 @@
  * 
  * @returns {array}
  */
-Array.prototype.filterUnique = function() {
+Array.prototype.filterUnique = function () {
     var self = this;
-    return this.filter(function(item, position) {
+    return this.filter(function (item, position) {
         return self.indexOf(item) === position;
     });
 };
@@ -18,26 +18,35 @@ Invoice.clientAddress = Invoice.clientAddress.join('<br/>');
 Invoice.self.address = Invoice.self.address.join('<br/>');
 
 // get totals by project
-var projectNames = Invoice.workItems.map(function(item) {
+var projectNames = Invoice.workItems.map(function (item) {
     return item.project;
 }).filterUnique().sort();
-var projectTotals = projectNames.map(function(projectName) {
+var projectTotals = projectNames.map(function (projectName) {
     var cost = Invoice.workItems
-            .filter(function(item) {
+            .filter(function (item) {
                 return item.project === projectName;
             })
-            .reduce(function(a, b) {
+            .reduce(function (a, b) {
                 return a + b.cost;
+            }, 0);
+    var minutes = Invoice.workItems
+            .filter(function (item) {
+                return item.project === projectName;
+            })
+            .reduce(function (a, b) {
+                return a + b.hours * 60 + b.minutes;
             }, 0);
     return {
         name: projectName,
-        cost: cost
+        cost: cost,
+        hours: Math.floor(minutes / 60),
+        minutes: minutes % 60
     };
 });
 Invoice.projectTotals = projectTotals;
 
 // get the overall total
-Invoice.totalCost = Invoice.workItems.reduce(function(a, b) {
+Invoice.totalCost = Invoice.workItems.reduce(function (a, b) {
     return a + b.cost;
 }, 0);
 
@@ -93,7 +102,7 @@ function paginateContent() {
     var workSectionCapHeight = $workSectionCap.height();
     $workSectionCap.remove();
 
-    $('.work-row').each(function() {
+    $('.work-row').each(function () {
         var $this = $(this);
         var $page = $this.closest('.page');
 
@@ -115,9 +124,9 @@ function paginateContent() {
 
     // add the closing content on the last page
     var $lastPage = $('.page:last');
-    var lastPageContentHeight = $lastPage.children().map(function() {
+    var lastPageContentHeight = $lastPage.children().map(function () {
         return $(this).outerHeight(true);
-    }).toArray().reduce(function(a, b) {
+    }).toArray().reduce(function (a, b) {
         return a + b;
     }, 0);
     if ($lastPage.height() - lastPageContentHeight >= summarySectionHeight)
@@ -144,7 +153,7 @@ function InvoiceViewModel() {
     $.extend(this, Invoice);
 }
 
-$(function() {
+$(function () {
     document.title = 'Invoice ' + Invoice.number;
     ko.applyBindings(new InvoiceViewModel());
     paginateContent();
