@@ -189,11 +189,19 @@ header {
 }
 .summary-project-items {
     display: inline-block;
+    vertical-align: middle;
+    
+    .work-item:first-child {
+        width: 14em;
+        flex: none;
+        text-align: left;
+    }
 }
 .summary-total {
     display: inline-block;
     margin-left: 50pt;
     text-align: right;
+    vertical-align: middle;
 
     &-inner {
         display: inline-block;
