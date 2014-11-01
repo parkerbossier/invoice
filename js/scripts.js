@@ -50,6 +50,14 @@ Invoice.totalCost = Invoice.workItems.reduce(function (a, b) {
     return a + b.cost;
 }, 0);
 
+
+
+
+
+/**********
+ * Function Definitions
+ */
+
 /**
  * Adds/updates derrived fields to the given item
  * (e.g. rate, cost)
@@ -95,8 +103,9 @@ function prettifyDuration(hours, minutes) {
  */
 function paginateContent() {
     var $footer = $('footer');
-    var $summarySection = $('.summary-section');
-    var summarySectionHeight = $summarySection.outerHeight(true);
+    var footerHeight = $footer.outerHeight();
+    var $summarySection = $('.summary-section').css('margin-top', '');
+    var summarySectionHeight = $summarySection.outerHeight();
     $summarySection.remove();
     var $workSectionCap = $('.work-section-cap');
     var workSectionCapHeight = $workSectionCap.height();
@@ -126,23 +135,31 @@ function paginateContent() {
     var $lastPage = $('.page:last');
     var lastPageContentHeight = $lastPage.children().map(function () {
         return $(this).outerHeight(true);
-    }).toArray().reduce(function (a, b) {
-        return a + b;
-    }, 0);
-    if ($lastPage.height() - lastPageContentHeight >= summarySectionHeight)
+    }).toArray()
+            .reduce(function (a, b) {
+                return a + b;
+            }, 0);
+    if ($lastPage.outerHeight() - lastPageContentHeight + footerHeight >= summarySectionHeight)
         $('.page:last').append($summarySection);
     else {
         $lastPage = $('<div>').addClass('page').append($summarySection);
         $('body').append($lastPage);
-
-        // vertically align
-        $summarySection.css({
-            'padding-top': ($lastPage.height() - summarySectionHeight) / 4 + 'pt'
-        });
     }
 
-    // add the footer
-    $('.page:last').append($footer).addClass('footer-placed');
+    // add the footer to the new last page
+    $lastPage.append($footer).addClass('footer-placed');
+
+    // vertically align the summary section
+    var marginTop = (
+            $lastPage.offset().top
+            + $lastPage.outerHeight()
+            - $summarySection.offset().top
+            - footerHeight
+            - summarySectionHeight
+            ) / 2;
+    $summarySection.css({
+        'margin-top': marginTop
+    });
 }
 
 /**
@@ -153,6 +170,9 @@ function InvoiceViewModel() {
     $.extend(this, Invoice);
 }
 
+/*
+ * Update the ui on DOM ready
+ */
 $(function () {
     document.title = 'Invoice ' + Invoice.number;
     ko.applyBindings(new InvoiceViewModel());

@@ -95,7 +95,7 @@
                         <div class="work-row">
                             <div class="work-item" data-bind="html: name">
                             </div>
-                            <div class="work-item" data-bind="html: hours + ':' + minutes">
+                            <div class="work-item" data-bind="html: prettifyDuration(hours, minutes)">
                             </div>
                             <div class="work-item" data-bind="text: prettifyCost(cost)">
                             </div>
