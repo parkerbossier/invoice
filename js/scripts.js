@@ -1,6 +1,6 @@
 /**
  * Returns a new array consisting of the unique elements of the subject array
- * 
+ *
  * @returns {array}
  */
 Array.prototype.filterUnique = function () {
@@ -11,7 +11,7 @@ Array.prototype.filterUnique = function () {
 };
 
 // add derived work item properties
-Invoice.workItems = Invoice.workItems.map(addDerrivedWorkItemProperties);
+Invoice.workItems = Invoice.workItems.map(addDerivedWorkItemProperties);
 
 // newline-ify the addresses
 Invoice.clientAddress = Invoice.clientAddress.join('<br/>');
@@ -59,23 +59,24 @@ Invoice.totalCost = Invoice.workItems.reduce(function (a, b) {
  */
 
 /**
- * Adds/updates derrived fields to the given item
+ * Adds/updates derived fields to the given item
  * (e.g. rate, cost)
- * 
+ *
  * @param {object} item
  * @returns {object}
  */
-function addDerrivedWorkItemProperties(item) {
+function addDerivedWorkItemProperties(item) {
     if (item.rate === undefined)
         item.rate = Invoice.baseRate;
     item.cost = (item.hours + item.minutes / 60) * item.rate;
+    item.project = item.project || Invoice.defaultProject;
 
     return item;
 }
 
 /**
  * Returns a pretty cost (e.g. $3.50)
- * 
+ *
  * @param {number} cost
  * @returns {string}
  */
@@ -89,7 +90,7 @@ function prettifyCost(cost) {
 
 /**
  * Returns a pretty duration (e.g. 0:35)
- * 
+ *
  * @param {number} hours
  * @param {number} minutes
  * @returns {string}

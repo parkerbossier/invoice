@@ -9,6 +9,7 @@ var Invoice = {
         'New York, NY 82736'
     ],
     date: 'September 1, 2014',
+    defaultProject: 'Project A',
     number: 1,
     self: {
         address: [
@@ -21,14 +22,12 @@ var Invoice = {
     },
     workItems: [
         {
-            project: 'Project A',
             description: 'Work description for the work will work',
             hours: 1,
             minutes: 10,
             date: '8/18/2014'
         },
         {
-            project: 'Project A',
             description: 'Work description for the work will work',
             hours: 0,
             minutes: 45,
